@@ -1,41 +1,42 @@
 body {
-	background-color: transparent;
+  background-color: transparent;
 }
 
 .commit-list {
-	list-style: none;
-	padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .commit-entry {
-	width: 100%;
-	display: flex;
-	margin-bottom: 0.4em;
-	border: 1px solid var(--vscode-input-border);
+  background: grey;
+  display: inline-flex;
+  margin-bottom: 0.4em;
+  border: 1px solid var(--vscode-input-border);
+  border-radius: 4px; /* Add some border-radius for a rounded appearance */
+  padding: 4px; /* Add padding for spacing */
+  justify-content: flex-start; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  text-align: center; /* Center text horizontally */
 }
 
 .commit-preview {
-	width: 6em;
-	height: 2em;
-}
-
-.commit-preview:hover {
-	outline: inset white;
+  width: 6em;
+  height: 2em;
 }
 
 .commit-defect-probability {
-	width: 6em;
-	height: 2em;
-	background: white; /* Gradient from green to red */
-    color: white; /* Text color */
-    border: none; /* Remove border */
-    border-radius: 4px; /* Add some border-radius for a rounded appearance */
-    padding: 4px; /* Add padding for spacing */
-    text-align: center; /* Center text within the input */
+  background-color: white;
+  color: white;
+  width: 6em;
+  height: 2em;
+  border-radius: 4px; /* Add some border-radius for a rounded appearance */
+  padding: 4px; /* Add padding for spacing */
+  margin-left: 4px;
+  text-align: center; /* Center text within the input */
 }
 
 .run-button {
-	display: block;
-	border: none;
-	margin: 0 auto;
+  display: block;
+  border: none;
+  margin: 0 auto;
 }

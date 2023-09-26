@@ -20,7 +20,7 @@
         const value = parseFloat(input.getAttribute('data-value'));
         const green = 255 * (1 - value);
         const red = 255 * value;
-        const backgroundColor = `rgba(${red}, ${green}, 0, 0.8)`;
+        const backgroundColor = `rgba(${red}, ${green}, 0, 0)`;
         // @ts-ignore
         input.style.backgroundColor = backgroundColor;
     });

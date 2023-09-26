@@ -76,9 +76,25 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                 <p>A cutting-edge defect prediction tool with up-to-date Just-in-Time techniques and a robust API</p>
 				<ul>
                     <li class="commit-entry">
-                        <div class="commit-preview"><span class="commit-hash">#FF5733</span></div>
+                        <div class="commit-hash">5f2188e336add1b6798c822c0c180d2603d75807</div>
                         <div class="commit-defect-probability" data-value="0.5"></div>
-                    </li>    
+                    </li>
+                    <li class="commit-entry">
+                        <div class="commit-hash">5f2188e336add1b6798c822c0c180d2603d75807</div>
+                        <div class="commit-defect-probability" data-value="0.5"></div>
+                    </li>
+                    <li class="commit-entry">
+                        <div class="commit-hash">5f2188e336add1b6798c822c0c180d2603d75807</div>
+                        <div class="commit-defect-probability" data-value="0.5"></div>
+                    </li>  
+                    <li class="commit-entry">
+                        <div class="commit-hash">5f2188e336add1b6798c822c0c180d2603d75807</div>
+                        <div class="commit-defect-probability" data-value="0.5"></div>
+                    </li>  
+                    <li class="commit-entry">
+                        <div class="commit-hash">5f2188e336add1b6798c822c0c180d2603d75807</div>
+                        <div class="commit-defect-probability" data-value="0.5"></div>
+                    </li>  
                 </ul>
 
                 <button class="run-button">Run Defect Guard</button>
