@@ -11,6 +11,10 @@ export function activate(context: vscode.ExtensionContext) {
 	checkInstalledTools();
 	installDefectGuard();
 
+	vscode.workspace.onDidOpenTextDocument(() => {
+		callDefectGuard();
+	});
+
 	vscode.workspace.onDidSaveTextDocument(() => {
 		callDefectGuard();
 	})
@@ -22,4 +26,4 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 }
 
-export function deactivate() {}
+export function deactivate() { }
