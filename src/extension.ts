@@ -11,12 +11,16 @@ export function activate(context: vscode.ExtensionContext) {
 	checkInstalledTools();
 	installDefectGuard();
 
+	const commitHash = '5f2188e336add1b6798c822c0c180d2603d75807'
+
 	vscode.workspace.onDidOpenTextDocument(() => {
-		callDefectGuard();
+		const predict = callDefectGuard();
+		provider.runDefectGuard(commitHash, predict);
 	});
 
 	vscode.workspace.onDidSaveTextDocument(() => {
-		callDefectGuard();
+		const predict = callDefectGuard();
+		provider.runDefectGuard(commitHash, predict);
 	})
 
 	let disposable = vscode.commands.registerCommand('defectguard.helloWorld', () => {

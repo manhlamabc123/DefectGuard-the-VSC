@@ -60,19 +60,21 @@ export function installDefectGuard() {
 	});
 }
 
-export function callDefectGuard() {
+export function callDefectGuard(): any {
 	const command = 'defectguard -h';
 
-	exec(command, (error, stdout, stderr) => {
-		console.log(stdout);
-		if (error) {
-			console.error(`DefectGuard: ${error.message}`);
-			return;
-		}
+	// exec(command, (error, stdout, stderr) => {
+	// 	console.log(stdout);
+	// 	if (error) {
+	// 		console.error(`DefectGuard: ${error.message}`);
+	// 		return;
+	// 	}
 
-		if (stderr) {
-			console.error(`DefectGuard: ${stderr}`);
-			return;
-		}
-	});
+	// 	if (stderr) {
+	// 		console.error(`DefectGuard: ${stderr}`);
+	// 		return;
+	// 	}	
+	// });
+
+	return 0.3;
 }

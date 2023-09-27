@@ -39,6 +39,16 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         });
     }
 
+    public runDefectGuard(commitHash: any, predict: any) {
+		if (this._view) {
+			this._view.show?.(true); // `show` is not implemented in 1.49 but is for 1.50 insiders
+			this._view.webview.postMessage({ 
+                type: 'runDefectGuard',
+                data: {'commitHash': commitHash, 'predict': predict}
+            });
+		}
+	}
+
     private _getHtmlForWebview(webview: vscode.Webview) {
         // Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
         const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
@@ -74,27 +84,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 			<body>
                 <h3>Defect Guard</h3>
                 <p>A cutting-edge defect prediction tool with up-to-date Just-in-Time techniques and a robust API</p>
-				<ul>
-                    <li class="commit-entry">
-                        <div class="commit-hash">5f2188e336add1b6798c822c0c180d2603d75807</div>
-                        <div class="commit-defect-probability" data-value="0.5"></div>
-                    </li>
-                    <li class="commit-entry">
-                        <div class="commit-hash">5f2188e336add1b6798c822c0c180d2603d75807</div>
-                        <div class="commit-defect-probability" data-value="0.5"></div>
-                    </li>
-                    <li class="commit-entry">
-                        <div class="commit-hash">5f2188e336add1b6798c822c0c180d2603d75807</div>
-                        <div class="commit-defect-probability" data-value="0.5"></div>
-                    </li>  
-                    <li class="commit-entry">
-                        <div class="commit-hash">5f2188e336add1b6798c822c0c180d2603d75807</div>
-                        <div class="commit-defect-probability" data-value="0.5"></div>
-                    </li>  
-                    <li class="commit-entry">
-                        <div class="commit-hash">5f2188e336add1b6798c822c0c180d2603d75807</div>
-                        <div class="commit-defect-probability" data-value="0.5"></div>
-                    </li>  
+				<ul class=commit-list>
                 </ul>
 
                 <button class="run-button">Run Defect Guard</button>
