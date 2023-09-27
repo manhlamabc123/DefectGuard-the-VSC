@@ -22,12 +22,6 @@ export function activate(context: vscode.ExtensionContext) {
 		const predict = callDefectGuard();
 		provider.runDefectGuard(commitHash, predict);
 	})
-
-	let disposable = vscode.commands.registerCommand('defectguard.helloWorld', () => {
-		vscode.window.showInformationMessage('DefectGuard is working!');
-	});
-
-	context.subscriptions.push(disposable);
 }
 
 export function deactivate() { }

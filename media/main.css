@@ -26,13 +26,19 @@ body {
 
 .commit-defect-probability {
   background-color: white;
-  color: white;
   width: 6em;
   height: 2em;
   border-radius: 4px; /* Add some border-radius for a rounded appearance */
   padding: 4px; /* Add padding for spacing */
   margin-left: 4px;
   text-align: center; /* Center text within the input */
+}
+
+
+.probability {
+  font-weight: bold; /* Make the text bold */
+  font-size: 16px; /* Set the font size to your desired value */
+  /* Your other styles for the styled text */
 }
 
 .run-button {
