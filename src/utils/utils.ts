@@ -55,26 +55,23 @@ export function installDefectGuard() {
 			console.error(`Error installing DefectGuard: ${stderr}`);
 			return;
 		}
-
-		console.log('DefectGuard installed successfully.');
 	});
 }
 
-export function callDefectGuard(): any {
-	const command = 'defectguard -h';
+export function callDefectGuard(): Promise<Object> {
+	let wf = vscode.workspace.workspaceFolders[0].uri.path;
+	const command = `defectguard -models deepjit -dataset platform -repo ${wf} -commit_hash dedbc4ed5b953ac03854c83e0b91dd56f4fd1f1e e07e944afd5435a367c8b1789cda20d7c52240c3 -main_language C`;
 
-	// exec(command, (error, stdout, stderr) => {
-	// 	console.log(stdout);
-	// 	if (error) {
-	// 		console.error(`DefectGuard: ${error.message}`);
-	// 		return;
-	// 	}
+	return new Promise<Object>((resolve) => {
+		exec(command, (error, stdout, stderr) => {
+			const jsonStringWithDoubleQuotes = stdout.replace(/'/g, '"');
+			var json = JSON.parse(jsonStringWithDoubleQuotes)
 
-	// 	if (stderr) {
-	// 		console.error(`DefectGuard: ${stderr}`);
-	// 		return;
-	// 	}	
-	// });
-
-	return 0.3;
+			if (!error) {
+				resolve(json);
+			} else {
+				resolve({});
+			}
+		});
+	});
 }

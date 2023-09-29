@@ -12,7 +12,7 @@
     const message = event.data; // The json data that the extension sent
     switch (message.type) {
       case "runDefectGuard": {
-        runDefectGuard(message.data.commitHash, message.data.predict);
+        runDefectGuard(message.data);
         break;
       }
     }
@@ -30,7 +30,7 @@
 
       const commitHash = document.createElement("div");
       commitHash.className = "commit-hash";
-      commitHash.textContent = commit.commitHash;
+      commitHash.textContent = commit.commit_hash;
       // commitHash.addEventListener('click', () => {
       //     onColorClicked(color.value);
       // });
@@ -39,14 +39,16 @@
       const commitDefectProb = document.createElement("div");
       commitDefectProb.className = "commit-defect-probability";
       const value = parseFloat(commit.predict);
-      var hue=((1-value)*120).toString(10);
-      commitDefectProb.style.backgroundColor = ["hsl(",hue,",100%,50%)"].join("");
+      var hue = ((1 - value) * 120).toString(10);
+      commitDefectProb.style.backgroundColor = ["hsl(", hue, ",100%,50%)"].join(
+        ""
+      );
 
       const styledText = document.createElement("span");
-      var re_hue = ((value)*120).toString(10);
+      var re_hue = (value * 120).toString(10);
       styledText.className = "probability";
-      styledText.textContent = value + '';
-      styledText.style.color = ["hsl(",re_hue,",100%,50%)"].join("");
+      styledText.textContent = value + "";
+      styledText.style.color = ["hsl(", re_hue, ",100%,50%)"].join("");
       commitDefectProb.appendChild(styledText);
       // commitDefectProb.addEventListener('change', (e) => {
       //     const value = e.target.value;
@@ -68,11 +70,12 @@
   }
 
   /**
-   * @param {any} commitHash
-   * @param {any} predict
+   * @param {any} defectGuardOutput
    */
-  function runDefectGuard(commitHash, predict) {
-    commits.push({ commitHash: commitHash, predict: predict });
+  function runDefectGuard(defectGuardOutput) {
+    for (const commit of defectGuardOutput.deepjit) {
+      commits.push(commit);
+    }
     updateCommitList(commits);
   }
 })();

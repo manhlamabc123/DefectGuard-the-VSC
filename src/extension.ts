@@ -11,16 +11,14 @@ export function activate(context: vscode.ExtensionContext) {
 	checkInstalledTools();
 	installDefectGuard();
 
-	const commitHash = '5f2188e336add1b6798c822c0c180d2603d75807'
-
-	vscode.workspace.onDidOpenTextDocument(() => {
-		const predict = callDefectGuard();
-		provider.runDefectGuard(commitHash, predict);
+	vscode.workspace.onDidOpenTextDocument(async () => {
+		const defectGuardOutput = await callDefectGuard();
+		provider.runDefectGuard(defectGuardOutput);
 	});
 
-	vscode.workspace.onDidSaveTextDocument(() => {
-		const predict = callDefectGuard();
-		provider.runDefectGuard(commitHash, predict);
+	vscode.workspace.onDidSaveTextDocument(async () => {
+		const defectGuardOutput = await callDefectGuard();
+		provider.runDefectGuard(defectGuardOutput);
 	})
 }
 
