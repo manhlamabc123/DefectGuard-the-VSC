@@ -25,42 +25,39 @@
     const ul = document.querySelector(".commit-list");
     ul.textContent = "";
     for (const commit of commits) {
-      const li = document.createElement("li");
-      li.className = "commit-entry";
+      const predictValue = parseFloat(commit.predict)
+      const predict = (predictValue * 100).toFixed(2) + "%";
+      var hue = ((1 - predictValue) * 120).toString(10);
 
-      const commitHash = document.createElement("div");
+      const li = document.createElement("li");
+      li.className = "commit-box";
+
+      const commitInfo = document.createElement("div");
+      commitInfo.className = "commit-info";
+
+      const commitHash = document.createElement("span");
       commitHash.className = "commit-hash";
       commitHash.textContent = commit.commit_hash;
-      // commitHash.addEventListener('click', () => {
-      //     onColorClicked(color.value);
-      // });
-      li.appendChild(commitHash);
 
-      const commitDefectProb = document.createElement("div");
-      commitDefectProb.className = "commit-defect-probability";
-      const value = parseFloat(commit.predict);
-      var hue = ((1 - value) * 120).toString(10);
-      commitDefectProb.style.backgroundColor = ["hsl(", hue, ",100%,50%)"].join(
-        ""
-      );
+      const probability = document.createElement("span");
+      probability.className = "probability";
+      probability.textContent = predict;
 
-      const styledText = document.createElement("span");
-      var re_hue = (value * 120).toString(10);
-      styledText.className = "probability";
-      styledText.textContent = value + "";
-      styledText.style.color = ["hsl(", re_hue, ",100%,50%)"].join("");
-      commitDefectProb.appendChild(styledText);
-      // commitDefectProb.addEventListener('change', (e) => {
-      //     const value = e.target.value;
-      //     if (!value) {
-      //         // Treat empty value as delete
-      //         commits.splice(commits.indexOf(color), 1);
-      //     } else {
-      //         color.value = value;
-      //     }
-      //     updateColorList(commits);
-      // });
-      li.appendChild(commitDefectProb);
+      commitInfo.appendChild(commitHash);
+      commitInfo.appendChild(probability);
+
+      const commitBg = document.createElement("div");
+      commitBg.className = "commit-bg";
+
+      const commitBar = document.createElement("div");
+      commitBar.className = "commit-bar";
+      commitBar.style.width = predict;
+      commitBar.style.backgroundColor = ["hsl(", hue, ",100%,50%)"].join("");
+
+      commitBg.appendChild(commitBar);
+
+      li.appendChild(commitInfo);
+      li.appendChild(commitBg);
 
       ul.appendChild(li);
     }

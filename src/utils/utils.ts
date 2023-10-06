@@ -43,7 +43,7 @@ export async function checkInstalledTools() {
 }
 
 export function installDefectGuard() {
-	const command = 'pip install -i https://test.pypi.org/simple/ defectguard';
+	const command = 'pip install -i https://test.pypi.org/simple/ defectguard==0.1.26';
 
 	exec(command, (error, stdout, stderr) => {
 		if (error) {
@@ -66,10 +66,10 @@ export function callDefectGuard(): Promise<Object> {
 		exec(command, (error, stdout, stderr) => {
 			const jsonStringWithDoubleQuotes = stdout.replace(/'/g, '"');
 			var json = JSON.parse(jsonStringWithDoubleQuotes)
-
 			if (!error) {
 				resolve(json);
 			} else {
+				console.log(stderr)
 				resolve({});
 			}
 		});
