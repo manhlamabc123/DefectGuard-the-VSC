@@ -24,7 +24,7 @@
   function updateCommitList(commits) {
     const ul = document.querySelector(".commit-list");
     ul.textContent = "";
-    
+
     // Sort the commits by probability (descending order)
     commits.sort((a, b) => parseFloat(b.predict) - parseFloat(a.predict));
 
@@ -74,9 +74,11 @@
    * @param {any} defectGuardOutput
    */
   function runDefectGuard(defectGuardOutput) {
+    commits = [];
     for (const commit of defectGuardOutput.deepjit) {
       commits.push(commit);
     }
+    
     updateCommitList(commits);
   }
 })();
