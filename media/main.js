@@ -24,6 +24,10 @@
   function updateCommitList(commits) {
     const ul = document.querySelector(".commit-list");
     ul.textContent = "";
+    
+    // Sort the commits by probability (descending order)
+    commits.sort((a, b) => parseFloat(b.predict) - parseFloat(a.predict));
+
     for (const commit of commits) {
       const predictValue = parseFloat(commit.predict)
       const predict = (predictValue * 100).toFixed(2) + "%";
