@@ -4,7 +4,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     public static readonly viewType = 'defect-guard-sidebar';
 
-    public selectedLanguage: any;
+    public selectedLanguage = 'Python';
 
     private _view?: vscode.WebviewView;
 
@@ -89,10 +89,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
                 <label for="language">Choose a Programming Language:</label>
                 <select id="language" name="language">
+                    <option value="C">C</option>
                     <option value="Python">Python</option>
                     <option value="Java">Java</option>
                     <option value="Javascript">JavaScript</option>
-                    <option value="C">C</option>
                     <!-- Add more programming languages as needed -->
                 </select>
 
