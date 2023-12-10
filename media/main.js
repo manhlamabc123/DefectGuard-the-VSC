@@ -3,9 +3,27 @@
 // This script will be run within the webview itself
 // It cannot access the main VS Code APIs directly.
 (function () {
+  // @ts-ignore
   const vscode = acquireVsCodeApi();
 
   let commits = [];
+
+  // Get a reference to the select element
+  var languageSelect = document.getElementById("language");
+
+  // Add an event listener to the select element
+  // @ts-ignore
+  languageSelect.addEventListener("input", function () {
+    // Get the selected value
+    // @ts-ignore
+    var selectedLanguage = languageSelect.value;
+
+    // Send a message to the extension with the selected language
+    vscode.postMessage({
+      type: "selectLanguage",
+      data: selectedLanguage,
+    });
+  });
 
   // Handle messages sent from the extension to the webview
   window.addEventListener("message", (event) => {
@@ -23,13 +41,14 @@
    */
   function updateCommitList(commits) {
     const ul = document.querySelector(".commit-list");
+    // @ts-ignore
     ul.textContent = "";
 
     // Sort the commits by probability (descending order)
     commits.sort((a, b) => parseFloat(b.predict) - parseFloat(a.predict));
 
     for (const commit of commits) {
-      const predictValue = parseFloat(commit.predict)
+      const predictValue = parseFloat(commit.predict);
       const predict = (predictValue * 100).toFixed(2) + "%";
       var hue = ((1 - predictValue) * 120).toString(10);
 
@@ -63,6 +82,7 @@
       li.appendChild(commitInfo);
       li.appendChild(commitBg);
 
+      // @ts-ignore
       ul.appendChild(li);
     }
 
@@ -78,7 +98,7 @@
     for (const commit of defectGuardOutput.deepjit) {
       commits.push(commit);
     }
-    
+
     updateCommitList(commits);
   }
 })();

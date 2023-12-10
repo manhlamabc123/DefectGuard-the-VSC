@@ -12,12 +12,14 @@ export function activate(context: vscode.ExtensionContext) {
 	installDefectGuard();
 
 	vscode.workspace.onDidOpenTextDocument(async () => {
-		const defectGuardOutput = await callDefectGuard();
+		const mainLanguage = provider.selectedLanguage;
+		const defectGuardOutput = await callDefectGuard(mainLanguage);
 		provider.runDefectGuard(defectGuardOutput);
 	});
 
 	vscode.workspace.onDidSaveTextDocument(async () => {
-		const defectGuardOutput = await callDefectGuard();
+		const mainLanguage = provider.selectedLanguage;
+		const defectGuardOutput = await callDefectGuard(mainLanguage);
 		provider.runDefectGuard(defectGuardOutput);
 	})
 }

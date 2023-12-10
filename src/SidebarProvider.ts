@@ -4,6 +4,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     public static readonly viewType = 'defect-guard-sidebar';
 
+    public selectedLanguage: any;
+
     private _view?: vscode.WebviewView;
 
     constructor(
@@ -30,10 +32,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
         webviewView.webview.onDidReceiveMessage(data => {
             switch (data.type) {
-                case 'colorSelected':
+                case 'selectLanguage':
                     {
-                        vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
-                        break;
+                        this.selectedLanguage = data.data;
                     }
             }
         });
@@ -85,6 +86,16 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 			<body>
                 <h3>Defect Guard</h3>
                 <p>A cutting-edge defect prediction tool with up-to-date Just-in-Time techniques and a robust API</p>
+
+                <label for="language">Choose a Programming Language:</label>
+                <select id="language" name="language">
+                    <option value="Python">Python</option>
+                    <option value="Java">Java</option>
+                    <option value="Javascript">JavaScript</option>
+                    <option value="C">C</option>
+                    <!-- Add more programming languages as needed -->
+                </select>
+
 				<ul class=commit-list>
                 </ul>
 
