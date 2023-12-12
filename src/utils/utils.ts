@@ -43,7 +43,7 @@ export async function checkInstalledTools() {
 }
 
 export function installDefectGuard() {
-	const command = 'pip install -i https://test.pypi.org/simple/ defectguard==0.1.27';
+	const command = 'pip install -i https://test.pypi.org/simple/ defectguard==0.1.28';
 
 	exec(command, (error, stdout, stderr) => {
 		if (error) {

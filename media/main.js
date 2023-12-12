@@ -53,10 +53,9 @@
       let predict, hue;
 
       if (predictValue === -1) {
-          // // Handle the case when commit.predict is -1
-          // hue = '0';
-          // predict = '';  // Or any other default value you prefer
-          continue;
+          // Handle the case when commit.predict is -1
+          hue = '0';
+          predict = 'No Code Changes';  // Or any other default value you prefer
       } else {
           predict = (predictValue * 100).toFixed(2) + "%";
           hue = ((1 - predictValue) * 120).toString(10);

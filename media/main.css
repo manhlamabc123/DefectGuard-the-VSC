@@ -46,7 +46,7 @@ body {
 
 /* Style for the commit-bar */
 .commit-bar {
-  width: 80%;
+  width: 0%;
   height: 20px;
   border-radius: 6px;
 }
