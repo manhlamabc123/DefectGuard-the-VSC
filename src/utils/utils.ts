@@ -43,7 +43,7 @@ export async function checkInstalledTools() {
 }
 
 export function installDefectGuard() {
-	const command = 'pip install -i https://test.pypi.org/simple/ defectguard==0.1.26';
+	const command = 'pip install -i https://test.pypi.org/simple/ defectguard==0.1.27';
 
 	exec(command, (error, stdout, stderr) => {
 		if (error) {
@@ -61,7 +61,7 @@ export function installDefectGuard() {
 export function callDefectGuard(mainLanguage: any): Promise<Object> {
 	console.log(`callDefectGuard: ${mainLanguage}`)
 	let wf = vscode.workspace.workspaceFolders[0].uri.path;
-	const command = `defectguard -models deepjit -dataset platform -repo ${wf} -commit_hash dedbc4ed5b953ac03854c83e0b91dd56f4fd1f1e e07e944afd5435a367c8b1789cda20d7c52240c3 c02ebd96206ea49a172c49cf6ee47ce6e9b7cea6 5b55c88d5809bb75db413247eeb7ab9aac94ea46 -main_language ${mainLanguage}`;
+	const command = `defectguard -models deepjit -dataset platform -repo ${wf} -top 10 -main_language ${mainLanguage}`;
 
 	return new Promise<Object>((resolve) => {
 		exec(command, (error, stdout, stderr) => {

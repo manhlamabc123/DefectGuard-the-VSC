@@ -49,8 +49,18 @@
 
     for (const commit of commits) {
       const predictValue = parseFloat(commit.predict);
-      const predict = (predictValue * 100).toFixed(2) + "%";
-      var hue = ((1 - predictValue) * 120).toString(10);
+
+      let predict, hue;
+
+      if (predictValue === -1) {
+          // // Handle the case when commit.predict is -1
+          // hue = '0';
+          // predict = '';  // Or any other default value you prefer
+          continue;
+      } else {
+          predict = (predictValue * 100).toFixed(2) + "%";
+          hue = ((1 - predictValue) * 120).toString(10);
+      }
 
       const li = document.createElement("li");
       li.className = "commit-box";
