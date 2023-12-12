@@ -1,15 +1,14 @@
 import * as vscode from 'vscode';
-import { checkInstalledTools, installDefectGuard, callDefectGuard } from './utils/utils'
+import { callDefectGuard } from './utils/utils'
 import { SidebarProvider } from './SidebarProvider';
 
 export async function activate(context: vscode.ExtensionContext) {
 	const provider = new SidebarProvider(context.extensionUri);
 
 	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(SidebarProvider.viewType, provider));
+		vscode.window.registerWebviewViewProvider(SidebarProvider.viewType, provider)
+	);
 
-	checkInstalledTools();
-	installDefectGuard();
 	const mainLanguage = provider.selectedLanguage;
 	const defectGuardOutput = await callDefectGuard(mainLanguage);
 	provider.runDefectGuard(defectGuardOutput);
