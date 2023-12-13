@@ -3,14 +3,43 @@ import * as vscode from 'vscode';
 export class SidebarProvider implements vscode.WebviewViewProvider {
 
     public static readonly viewType = 'defect-guard-sidebar';
-
-    public selectedLanguage = 'C';
-
     private _view?: vscode.WebviewView;
+    private _selectedLanguage: string;
+    private _supportedLanguages: string[];
 
     constructor(
         private readonly _extensionUri: vscode.Uri,
-    ) { }
+        private readonly _state: vscode.Memento
+    ) {
+        this._selectedLanguage = this._state.get<string>('selectedLanguage') || 'C';
+        this._supportedLanguages = this._state.get<string[]>('supportedLanguages') || ['C', 'C++', 'Java', 'Python'];
+    }
+
+    // Getter for selectedLanguage
+    get selectedLanguage(): string {
+        return this._selectedLanguage;
+    }
+
+    // Setter for selectedLanguage
+    set selectedLanguage(value: string) {
+        // You can add validation or additional logic here if needed
+        this._selectedLanguage = value;
+    }
+
+    public runDefectGuard(defectGuardOutput: any) {
+        console.log(defectGuardOutput.deepjit)
+        if (this._view) {
+            this._view.show?.(true);
+            this._view.webview.postMessage({
+                type: 'runDefectGuard',
+                data: {
+                    defectGuardOutput: defectGuardOutput,
+                    selectedLanguage: this._selectedLanguage,
+                    supportedLanguages: this._supportedLanguages
+                }
+            });
+        }
+    }
 
     public resolveWebviewView(
         webviewView: vscode.WebviewView,
@@ -34,21 +63,34 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             switch (data.type) {
                 case 'selectLanguage':
                     {
-                        this.selectedLanguage = data.data;
+                        const selectedLanguage = data.data;
+
+                        // Move the selectedLanguage to the top of the supportedLanguages list
+                        const index = this._supportedLanguages.indexOf(selectedLanguage);
+                        if (index !== -1) {
+                            this._supportedLanguages.splice(index, 1); // Remove from the current position
+                            this._supportedLanguages.unshift(selectedLanguage); // Add to the beginning of the list
+                        }
+
+                        this._selectedLanguage = selectedLanguage;
+
+                        this._state.update('selectedLanguage', this._selectedLanguage);
+                        this._state.update('supportedLanguages', this._supportedLanguages);
+
+                        // Send a message back to the webview to update the UI
+                        if (this._view) {
+                            this._view.show?.(true);
+                            this._view.webview.postMessage({
+                                type: 'updateUI',
+                                data: {
+                                    selectedLanguage: this._selectedLanguage,
+                                    supportedLanguages: this._supportedLanguages
+                                }
+                            });
+                        }
                     }
             }
         });
-    }
-
-    public runDefectGuard(defectGuardOutput: any) {
-        console.log(defectGuardOutput.deepjit)
-        if (this._view) {
-            this._view.show?.(true);
-            this._view.webview.postMessage({
-                type: 'runDefectGuard',
-                data: defectGuardOutput
-            });
-        }
     }
 
     private _getHtmlForWebview(webview: vscode.Webview) {
@@ -59,6 +101,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         const styleResetUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'reset.css'));
         const styleVSCodeUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'vscode.css'));
         const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.css'));
+
+        // // Create the options for the select element
+        const languageOptions = this._supportedLanguages.map(language => `<option value="${language}" ${language === this.selectedLanguage ? 'selected' : ''}>${language}</option>`).join('');
 
         // Use a nonce to only allow a specific script to be run.
         const nonce = getNonce();
@@ -91,6 +136,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
                 <label for="language">Language:</label>
                 <select id="language" name="language">
+                    ${languageOptions}
                 </select>
 
                 <hr>
